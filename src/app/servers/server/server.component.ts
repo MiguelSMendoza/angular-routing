@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ServersService } from '../servers.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -19,14 +19,19 @@ export class ServerComponent implements OnInit, OnDestroy {
     private router: Router) { }
 
   ngOnInit() {
-    this.server = this.serversService.getServer(1);
-    this.paramsSubscription = this.route.params.subscribe(
-      (params: Params) => {
-        if(params['id']!==undefined) {
-          this.server = this.serversService.getServer(parseInt(params['id'], 10));
-        }
+    this.route.data.subscribe(
+      (data: Data) => {
+          this.server = data['server'];
       }
     );
+    // this.server = this.serversService.getServer(1);
+    // this.paramsSubscription = this.route.params.subscribe(
+    //   (params: Params) => {
+    //     if(params['id']!==undefined) {
+    //       this.server = this.serversService.getServer(parseInt(params['id'], 10));
+    //     }
+    //   }
+    // );
   }
 
   onEdit() {
